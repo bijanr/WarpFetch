@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"github.com/bijan/WarpFetch/internal/services"
+	"github.com/bijan/WarpFetch/internal/models"
 	"github.com/gocolly/colly"
 )
 
@@ -23,8 +23,8 @@ func NewScraper() *Scraper {
 }
 
 // Search performs a web search and returns the results
-func (s *Scraper) Search(query string) ([]services.SearchResult, error) {
-	var results []services.SearchResult
+func (s *Scraper) Search(query string) ([]models.SearchResult, error) {
+	var results []models.SearchResult
 
 	s.collector.OnHTML("div.g", func(e *colly.HTMLElement) {
 		title := e.ChildText("h3")
@@ -32,7 +32,7 @@ func (s *Scraper) Search(query string) ([]services.SearchResult, error) {
 		description := e.ChildText("div.VwiC3b")
 
 		if title != "" && url != "" {
-			results = append(results, services.SearchResult{
+			results = append(results, models.SearchResult{
 				Title:       title,
 				URL:         url,
 				Description: description,
